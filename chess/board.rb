@@ -1,9 +1,10 @@
 require_relative "piece.rb"
 
+
 class Board
   attr_reader :rows
   def initialize
-    @rows = Array.new(8) {Array.new(8, nil)}
+    @rows = Array.new(8) {Array.new(8, NullPiece.instance)}
     create_board
   end
 

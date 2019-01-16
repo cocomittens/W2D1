@@ -1,5 +1,6 @@
 require_relative "board.rb"
 require "byebug"
+require "singleton"
 
 module SlidingPiece
   attr_reader :moves
@@ -116,3 +117,8 @@ class Pawn < Piece
   end
 end
 
+class NullPiece
+  include Singleton
+  def initialize
+  end
+end

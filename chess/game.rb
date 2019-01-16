@@ -10,17 +10,19 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   game = Game.new
-  while true
-
-    
+  while game.display.cursor.selected == false
+    system "clear"
     game.display.render
     game.display.cursor.get_input
-    p game.display.cursor.selected
-    p game.display.cursor.cursor_pos
-    sleep(2)
-
-    system "clear"
-
   end
 
+  start_pos = game.display.cursor.cursor_pos
+  while game.display.cursor.selected == true
+    system "clear"
+    game.display.render
+    game.display.cursor.get_input
+  end
+  end_pos = game.display.cursor.cursor_pos
+  game.display.board.move_piece(start_pos, end_pos)
+  game.display.render
 end 
