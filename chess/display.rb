@@ -6,15 +6,15 @@ require "colorize"
 class Display
   attr_reader :cursor
 
-  def initialize(board)
-    @cursor = Cursor.new([1,1], board)
-    @board = board
+  def initialize
+    @board = Board.new
+    @cursor = Cursor.new([1,1], @board)
   end
 
   def render
-    arr = [" 01234567"]
+    arr = [" " + ("A".."H").to_a.join("")]
     @board.rows.each_with_index do |r,i|
-      arr << (i.to_s + r.map {|space| space.nil? ? " " : "P" }.join)
+      arr << (i+1).to_s + r.map {|space| space.nil? ? " " : space.to_s }.join
     end
     #update cursor position with color
     r,c = @cursor.cursor_pos
@@ -29,8 +29,7 @@ class Display
 end
 
 def test
-  board = Board.new
-  display = Display.new(board)
+  display = Display.new
   while true
     system "clear"
     display.render
@@ -39,5 +38,9 @@ def test
   end
 end
 
-
-test
+# board = Board.new
+# display=Display.new(board)
+# display.render
+# board.move_piece([0,0], [4,1])
+# display.render
+# test

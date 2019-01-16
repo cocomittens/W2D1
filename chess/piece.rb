@@ -1,14 +1,18 @@
-module SlidingPiece
+require_relative "board.rb"
+require "byebug"
 
+module SlidingPiece
+  attr_reader :moves
   
 
 end
 
 module SteppingPiece
-  def self.valid_moves(start_pos, move_diffs)
+  attr_reader :moves
+  def valid_moves(move_diffs)
     shift = move_diffs.permutation(2).to_a.reject { |x,y| x.abs == y.abs }
     shift.map do |offset|
-      x, y = start_pos
+      x, y = self.pos
       dx, dy = offset
       [x+dx, y+dy]
     end
@@ -18,7 +22,10 @@ module SteppingPiece
 end
 
 class Piece
-  def initialize
+  attr_reader :pos, :board
+  def initialize(pos, board)
+    @pos = pos
+    @board = board
   end
 
   def to_s
@@ -29,27 +36,83 @@ class Piece
     "#<#{self.class}:#{self.objectid}>"
   end
 
+ 
+
 end
-require "byebug"
+
 class Knight < Piece
   include SteppingPiece
-  attr_reader :moves
-  def initialize
-    @moves = SteppingPiece.valid_moves([1,1],[-3, -1, 1, 3])
+
+  def initialize(pos, board)
+    super
+    @moves = valid_moves([-3, -1, 1, 3]).select{ |move| board.valid_pos?(move) }
+  
+  end
+
+  def to_s
+    "N"
   end
   
 end
 
 class King < Piece
   include SteppingPiece
-  attr_reader :moves
-  def initialize
-    @moves = SteppingPiece.valid_moves([1,1],[-1, 0, 1])
+
+  def initialize(pos, board)
+    super
+    @moves = valid_moves([-3, -1, 1, 3]).select{ |move| board.valid_pos?(move) }
+  end
+
+  def to_s
+    "K"
   end
   
 end
 
-knight = Knight.new
-king = King.new
-p knight.moves
-p king.moves
+class Rook < Piece
+  include SlidingPiece
+
+  def initialize(pos, board)
+    super
+  end
+
+  def to_s
+    "R"
+  end
+end
+
+class Bishop < Piece
+  include SlidingPiece
+
+  def initialize(pos, board)
+    super
+  end
+  def to_s
+    "B"
+  end
+end
+
+class Queen < Piece
+  include SlidingPiece
+
+  def initialize(pos, board)
+    super
+  end
+
+  def to_s
+    "Q"
+  end
+end
+
+class Pawn < Piece
+  attr_reader :moves
+
+  def initialize(pos, board)
+    super
+  end
+
+  def to_s
+    "P"
+  end
+end
+
