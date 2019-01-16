@@ -37,9 +37,9 @@ class Board
   def move_piece(start_pos, end_pos)
     raise "nothing at start position" if self[start_pos].nil?
     raise "Invalid End position" unless self.valid_pos?(end_pos)
-    raise "Piece at end position" unless self[end_pos].nil? 
+    raise "Piece at end position" unless self[end_pos] == NullPiece.instance 
     self[end_pos] = self[start_pos]
-    self[start_pos] = nil
+    self[start_pos] = NullPiece.instance
   end
 
   def valid_pos?(pos)

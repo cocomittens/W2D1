@@ -4,7 +4,7 @@ require "colorize"
 
 
 class Display
-  attr_reader :cursor, :boardf
+  attr_reader :cursor, :board
 
   def initialize
     @board = Board.new
@@ -14,7 +14,7 @@ class Display
   def render
     arr = [" " + ("A".."H").to_a.join("")]
     @board.rows.each_with_index do |r,i|
-      arr << (i+1).to_s + r.map {|space| space.is_a?(NullPiece) ? " " : space.to_s }.join
+      arr << (i+1).to_s + r.map {|space| space.to_s }.join
     end
     #update cursor position with color
     r,c = @cursor.cursor_pos
